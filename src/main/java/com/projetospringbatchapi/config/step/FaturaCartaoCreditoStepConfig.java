@@ -4,13 +4,15 @@ package com.projetospringbatchapi.config.step;
 import org.springframework.batch.core.Step;
 import org.springframework.batch.core.configuration.annotation.StepBuilderFactory;
 import org.springframework.batch.item.ItemProcessor;
-import org.springframework.batch.item.ItemReader;
+import org.springframework.batch.item.ItemStreamReader;
 import org.springframework.batch.item.ItemWriter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 import com.projetospringbatchapi.config.dominio.FaturaCartaoDominio;
+import com.projetospringbatchapi.config.dominio.TransacaoDominio;
+import com.projetospringbatchapi.config.reader.FaturaCartaoCreditoReader;
 
 @Configuration
 public class FaturaCartaoCreditoStepConfig {
@@ -20,7 +22,7 @@ public class FaturaCartaoCreditoStepConfig {
 	
 	@Bean
 	public Step faturaCartaoCreditoStep(
-			ItemReader<FaturaCartaoDominio> lerTransacoesReader,
+			ItemStreamReader<TransacaoDominio> lerTransacoesReader,
 			ItemProcessor<FaturaCartaoDominio, FaturaCartaoDominio> carregarDadosClienteprocessor,
 			ItemWriter<FaturaCartaoDominio> escreverFaturaCartaoCredito) {
 		return stepBuilderFactory
@@ -29,7 +31,8 @@ public class FaturaCartaoCreditoStepConfig {
 				 *  retorna para a escrita(writer) FaturaCartaoDominio
 				*/
 				.<FaturaCartaoDominio, FaturaCartaoDominio>chunk(1)
-				.reader(lerTransacoesReader)
+				//Delegate para o BD
+				.reader(new FaturaCartaoCreditoReader(lerTransacoesReader))
 				.processor(carregarDadosClienteprocessor)
 				.writer(escreverFaturaCartaoCredito)
 				.build();
