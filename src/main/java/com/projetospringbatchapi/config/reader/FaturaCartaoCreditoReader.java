@@ -40,6 +40,10 @@ public class FaturaCartaoCreditoReader implements ItemStreamReader<FaturaCartaoD
 				.getCartaoCredito().getNumeroCartaoCredito();
 	}
 	
+	/*
+	 * Peek para verificar sempre a próxima transação para que se não for nula
+	 * ou se for do mesmo cartão de crédito adiciona na fatura atual.
+	 */
 	private TransacaoDominio peek() throws Exception {
 		transacaoAtual = delegate.read();
 		return transacaoAtual;

@@ -23,7 +23,7 @@ public class FaturaCartaoCreditoStepConfig {
 	@Bean
 	public Step faturaCartaoCreditoStep(
 			ItemStreamReader<TransacaoDominio> lerTransacoesReader,
-			ItemProcessor<FaturaCartaoDominio, FaturaCartaoDominio> carregarDadosClienteprocessor,
+			ItemProcessor<FaturaCartaoDominio, FaturaCartaoDominio> carregarDadosClienteProcessor,
 			ItemWriter<FaturaCartaoDominio> escreverFaturaCartaoCredito) {
 		return stepBuilderFactory
 				.get("faturaCartaoCreditoStep")
@@ -33,7 +33,7 @@ public class FaturaCartaoCreditoStepConfig {
 				.<FaturaCartaoDominio, FaturaCartaoDominio>chunk(1)
 				//Delegate para o BD
 				.reader(new FaturaCartaoCreditoReader(lerTransacoesReader))
-				.processor(carregarDadosClienteprocessor)
+				.processor(carregarDadosClienteProcessor)
 				.writer(escreverFaturaCartaoCredito)
 				.build();
 	}
