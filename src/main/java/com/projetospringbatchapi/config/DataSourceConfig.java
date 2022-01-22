@@ -11,7 +11,7 @@ import org.springframework.context.annotation.Primary;
 @Configuration
 public class DataSourceConfig {
 
-	@Primary
+	
 	@Bean
 	@ConfigurationProperties(prefix = "spring.datasource")
 	public DataSource springDataSource() {
@@ -19,6 +19,7 @@ public class DataSourceConfig {
 		return DataSourceBuilder.create().build();
 	}
 	
+	@Primary
 	@Bean
 	@ConfigurationProperties(prefix = "app.datasource")
 	public DataSource appDataSource() {

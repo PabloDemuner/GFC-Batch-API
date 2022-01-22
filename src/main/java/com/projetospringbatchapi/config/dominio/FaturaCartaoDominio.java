@@ -34,4 +34,11 @@ public class FaturaCartaoDominio {
 		this.transacoes = transacoes;
 	}
 
+	public Double getTotal() {
+		return transacoes
+				.stream()
+				.mapToDouble(TransacaoDominio::getValor)
+				.reduce(0.0, Double::sum);
+	}
+
 }

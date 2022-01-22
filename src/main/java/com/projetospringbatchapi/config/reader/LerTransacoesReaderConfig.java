@@ -21,7 +21,7 @@ public class LerTransacoesReaderConfig {
 
 	@Bean
 	public JdbcCursorItemReader<TransacaoDominio> lerTransacoesReader(
-			@Qualifier("app.datasource") DataSource dataSource) {
+			@Qualifier("appDataSource") DataSource dataSource) {
 		
 		return new JdbcCursorItemReaderBuilder<TransacaoDominio>()
 				.name("lerTransacoesReader")

@@ -13,6 +13,7 @@ import org.springframework.context.annotation.Configuration;
 import com.projetospringbatchapi.config.dominio.FaturaCartaoDominio;
 import com.projetospringbatchapi.config.dominio.TransacaoDominio;
 import com.projetospringbatchapi.config.reader.FaturaCartaoCreditoReader;
+import com.projetospringbatchapi.config.writer.TotalTransacoesRodapeArquivo;
 
 @Configuration
 public class FaturaCartaoCreditoStepConfig {
@@ -24,7 +25,8 @@ public class FaturaCartaoCreditoStepConfig {
 	public Step faturaCartaoCreditoStep(
 			ItemStreamReader<TransacaoDominio> lerTransacoesReader,
 			ItemProcessor<FaturaCartaoDominio, FaturaCartaoDominio> carregarDadosClienteProcessor,
-			ItemWriter<FaturaCartaoDominio> escreverFaturaCartaoCredito) {
+			ItemWriter<FaturaCartaoDominio> escreverFaturaCartaoCredito,
+			TotalTransacoesRodapeArquivo listaTotalTransacoes) {
 		return stepBuilderFactory
 				.get("faturaCartaoCreditoStep")
 				/*Efetua a leitura(reader) de FaturaCartaoDominio e
@@ -35,6 +37,7 @@ public class FaturaCartaoCreditoStepConfig {
 				.reader(new FaturaCartaoCreditoReader(lerTransacoesReader))
 				.processor(carregarDadosClienteProcessor)
 				.writer(escreverFaturaCartaoCredito)
+				.listener(listaTotalTransacoes)
 				.build();
 	}
 }
